@@ -1,0 +1,119 @@
+\documentclass[10pt, a4, oneside]{ltjsbook}
+\usepackage{amssymb,amsmath}
+\usepackage{fontspec}
+\usepackage{luacode}
+
+\begin{luacode*}
+  USE_IPAFONT = os.getenv"USE_IPAFONT"
+  USE_YUFONT = os.getenv"USE_YUFONT"
+  
+  if USE_YUFONT == "true" then
+    tex.sprint("\\AtBeginDocument{\\usepackage[yu-osx, deluxe, expert]{luatexja-preset}}")
+  elseif USE_IPAFONT == "true" then
+    tex.sprint("\\AtBeginDocument{\\usepackage[ipaex, deluxe, expert]{luatexja-preset}}")
+  else
+    tex.sprint("\\AtBeginDocument{\\usepackage[hiragino-pro, deluxe, expert]{luatexja-preset}}")
+  end
+\end{luacode*}
+
+\setmainfont[Numbers=OldStyle, BoldFont=Palatino Bold]{Palatino}
+
+\usepackage[centering]{geometry}
+
+\usepackage[%
+  unicode=true,
+  breaklinks=true
+  bookmarks=true,
+  colorlinks=true,
+  pdfborder={0 0 0},
+  bookmarksnumbered=true,
+  bookmarkstype=toc,
+  bookmarksopen=true,
+  pdfauthor={株式会社ドワンゴ},
+  pdftitle={Scala Text}]{hyperref}
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\usepackage{mdframed}
+\newcommand{\VerbBar}{|}
+\newenvironment{Shaded}{\begin{mdframed}\bgroup\footnotesize}{\egroup\end{mdframed}}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\input{lib/color.tex}
+
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+
+\usepackage{parskip}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\usepackage{ifthen}
+\usepackage{import}
+\LetLtxMacro\latexincludegraphics\includegraphics
+\renewcommand\includegraphics[2][]{%
+  \def\detectFileSvgOrNot[##1]##2.##3\nil{%
+    \ifthenelse{\equal{##3}{svg}}
+      {\subimport{}{##2.pdf_tex}}
+      {\latexincludegraphics[#1]{#2}}%
+  }%
+  \IfFileExists{#2}
+  {\detectFileSvgOrNot[#1]#2\nil}
+  {\fbox{Image File doesn't exist}%
+   \message{Image File #2 doesn't exist^^J}}
+}
+
+\begin{document}
+
+\begin{luacode*}
+  require("lualibs-util-jsn.lua")
+
+  local target = "./target/"
+
+  function read(file)
+    local handler = io.open(file, "rb")
+    local content = handler:read("*all")
+    handler:close()
+    return content
+  end
+
+  function readSummary(file)
+    local handler = io.open(file, "r")
+    local summary = {}
+
+    for l in handler:lines() do
+      local n = string.match(l, "%[.*%]%((.*)%.md%)")
+      table.insert(summary, n)
+    end
+    handler:close()
+
+    return summary
+  end
+
+  function getTeXFile(target, name)
+    return target .. name .. ".tex"
+  end
+
+  function getFileName(f)
+    return string.match(f, "(.*)%.md")
+  end
+
+  local bookJson = utilities.json.tolua(read('book.json'))
+  local readmeFile  = getTeXFile(target, getFileName(bookJson['structure']['readme']))
+  local summaryFile = target .. bookJson['structure']['summary']
+
+  tex.print("\\frontmatter")
+  tex.print("\\input{" .. readmeFile .. "}")
+
+  tex.print("\\tableofcontents")
+
+  tex.print("\\mainmatter")
+  tex.print("\\chapter{Scalaテキスト}")
+  for k, v in pairs(readSummary(summaryFile)) do
+    tex.print("\\input{" .. getTeXFile(target, v) .. "}")
+  end
+\end{luacode*}
+
+\end{document}

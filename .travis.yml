@@ -1,0 +1,55 @@
+language: java
+os:
+  - osx
+before_install:
+  - brew update
+  - git submodule update --init --recursive
+install:
+  - curl -L -O http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg
+  - sudo installer -pkg BasicTeX.pkg -target /
+  - rm BasicTeX.pkg
+  - export PATH=$PATH:/usr/texbin
+  - sudo tlmgr update --self --all
+  - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed import needspace
+  - brew install pandoc sbt
+  - brew cask install inkscape
+before_script:
+  - sudo mkdir -p /usr/local/texlive/2015basic/texmf-local/fonts/opentype/public/hiragino/
+  - cd /usr/local/texlive/2015basic/texmf-local/fonts/opentype/public/hiragino/
+  - sudo ln -s "/Library/Fonts/ヒラギノ明朝 Pro W3.otf" HiraMinPro-W3.otf
+  - sudo ln -s "/Library/Fonts/ヒラギノ明朝 Pro W6.otf" HiraMinPro-W6.otf
+  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ Pro W3.otf" HiraKakuPro-W3.otf
+  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ Pro W6.otf" HiraKakuPro-W6.otf
+  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ Std W8.otf" HiraKakuStd-W8.otf
+  - sudo ln -s "/Library/Fonts/ヒラギノ丸ゴ Pro W4.otf" HiraMaruPro-W4.otf
+  - sudo ln -s "/System/Library/Fonts/ヒラギノ明朝 ProN W3.otf" HiraMinProN-W3.otf
+  - sudo ln -s "/System/Library/Fonts/ヒラギノ明朝 ProN W6.otf" HiraMinProN-W6.otf
+  - sudo ln -s "/System/Library/Fonts/ヒラギノ角ゴ ProN W3.otf" HiraKakuProN-W3.otf
+  - sudo ln -s "/System/Library/Fonts/ヒラギノ角ゴ ProN W6.otf" HiraKakuProN-W6.otf
+  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ StdN W8.otf" HiraKakuStdN-W8.otf
+  - sudo ln -s "/Library/Fonts/ヒラギノ丸ゴ ProN W4.otf" HiraMaruProN-W4.otf
+  - sudo mktexlsr
+  - cd -
+  - sudo fmtutil-sys --byfmt lualatex
+  - export USE_IPAFONT=true
+script:
+  - ./setup.sh
+  - make all
+after_success:
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\nIdentityFile ~/.ssh/deploy.key\n" >> ~/.ssh/config
+  - openssl aes-256-cbc -k "$SERVER_KEY" -in deploy_key.enc -d -a -out deploy.key
+  - cp deploy.key ~/.ssh/
+  - chmod 600 ~/.ssh/deploy.key
+  - git config --global user.email "m@yyu.pw"
+  - git config --global user.name "Yoshimura Yuu"
+  - git fetch origin gh-pages:gh-pages
+  - git stash -u
+  - git checkout gh-pages
+  - rm scala_text.pdf
+  - git stash pop
+  - git add scala_text.pdf
+  - git commit -a -m "auto commit on travis $TRAVIS_JOB_NUMBER $TRAVIS_COMMIT"
+  - git push git@github.com:y-yu/scala_text_pdf.git gh-pages:gh-pages
+env:
+  global:
+    - secure: AGWCGayLVbYc1MVVumA5El5xgLBt8ZAfaHJUbYwDvIXo7wiZEvP5b481FiUfJ4PAY7aFzvTnWSjW0y5TgPs2TYLnuiSBvyjklF/QmXlw1PcdMY/cCZjaxJH2RTiDx4SsR1dkRrMBXR3waxETTUt5wH6E4i4z+Fm8+S8Ig6HdcquflCY+ja5KfTqM8Nv6k/nsOV/+KHCwWmeiQBLsV58pFyDkfZVnMabgVJu8FJKmcoCHQkcEPdU1rS0ZkPHR7TEtW6x3pRC9x3nYzF4vSoyrnh2aCyBlBIuScQ0S7R/te8p3dvzsMXxk2tVb+tTzD1nsv5884GA8XWdRC1shnQOG8oWfPanP4W1WpnzPq7dBHseyCHZZfQfFNkfEfYRAPdAZbsZHRghfWLpIO9mLw4WM0Tz0/6Cd2MA562Ro5RZAUHtme3VsnujeE+22rbj9JCZO9AwxTiP9QHem0UkTjE2AiM4UHLmJrfRmD0t+PMaCYfUiVBGKm5Cl0Qv8Ru30k8z/G35D2i3uf18IjOu4iK9Qao7tgTMSGOVVHdk/oUV8OYo1FJ9CGBan4m6w4XjdPnqREs/ajErNbNwOvyrX1zwjN/IifIciY9hPaleE0bQOI9P+/yi6mpr3FRojdO8a75+F/uDzDp6cpXR43bxrqxwMVbpjiYO1Lafx22PAk5FalPk=

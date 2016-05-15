@@ -1,0 +1,17 @@
+.DS_Store
+*.aux
+*.log
+*.fls
+*.dvi
+*.omc
+*.toc
+*.fdb_latexmk
+*.nav
+*.snm
+*.synctex.gz
+*.vrb
+*.out
+*.pdf
+target/
+img/
+!scala_text.pdf
