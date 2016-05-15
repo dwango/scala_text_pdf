@@ -18,7 +18,7 @@ for f in ./scala_text/gitbook/*.md
 do
   if [[ $f =~ \./scala_text/gitbook/(.*)\.md ]]; then
     cp $f ./target/
-    pandoc -o "./target/${BASH_REMATCH[1]}.tex" -f markdown_github+fenced_code_attributes+footnotes-hard_line_breaks --latex-engine=lualatex --chapters $f
+    pandoc -o "./target/${BASH_REMATCH[1]}.tex" -f markdown_github+footnotes-hard_line_breaks-intraword_underscores --latex-engine=lualatex --chapters $f
   fi
 done
 
