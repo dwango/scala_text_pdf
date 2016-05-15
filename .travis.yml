@@ -6,6 +6,7 @@ cache:
     - "$HOME/.ivy2/cache"
     - "$HOME/.sbt/boot"
     - "$HOME/.sbt/launchers"
+    - "$HOME/Library/texlive/2015basic/texmf-var/luatex-cache"
 before_install:
   - brew update
 install:
@@ -15,7 +16,7 @@ install:
   - export PATH=$PATH:/usr/texbin
   - sudo tlmgr update --self --all
   - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace
-  - sudo tlmgr restore luaotfload
+  - yes | sudo tlmgr restore luaotfload 35328
   - brew install pandoc sbt
   - brew cask install inkscape
 before_script:
@@ -36,7 +37,7 @@ before_script:
   - sudo mktexlsr
   - cd -
   - sudo fmtutil-sys --byfmt lualatex
-  #- export USE_IPAFONT=true
+  # - export USE_IPAFONT=true
 script:
   - ./setup.sh
   - make all
