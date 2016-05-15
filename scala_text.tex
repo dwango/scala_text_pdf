@@ -43,8 +43,6 @@
 \usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
 
-\usepackage{parskip}
-
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -56,8 +54,7 @@
 \renewcommand\includegraphics[2][]{%
   \def\detectFileSvgOrNot[##1]##2.##3\nil{%
     \ifthenelse{\equal{##3}{svg}}
-      {%
-        \input{##2.pdf_tex}}
+      {\input{##2.pdf_tex}}
       {\latexincludegraphics[#1]{#2}}%
   }%
   \IfFileExists{#2}
@@ -117,7 +114,6 @@
   tex.print("\\tableofcontents")
 
   tex.print("\\mainmatter")
-  tex.print("\\chapter{Scalaテキスト}")
   for k, v in pairs(readSummary(summaryFile)) do
     tex.print("\\input{" .. getTeXFile(target, v) .. "}")
   end
