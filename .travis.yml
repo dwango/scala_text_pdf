@@ -1,9 +1,13 @@
 language: java
 os:
   - osx
+cache:
+  directories:
+    - "$HOME/.ivy2/cache"
+    - "$HOME/.sbt/boot"
+    - "$HOME/.sbt/launchers"
 before_install:
   - brew update
-  - git submodule update --init --recursive
 install:
   - curl -L -O http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg
   - sudo installer -pkg BasicTeX.pkg -target /
@@ -11,6 +15,7 @@ install:
   - export PATH=$PATH:/usr/texbin
   - sudo tlmgr update --self --all
   - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed import needspace
+  - sudo tlmgr restore luaotfload
   - brew install pandoc sbt
   - brew cask install inkscape
 before_script:
@@ -31,7 +36,7 @@ before_script:
   - sudo mktexlsr
   - cd -
   - sudo fmtutil-sys --byfmt lualatex
-  - export USE_IPAFONT=true
+  #- export USE_IPAFONT=true
 script:
   - ./setup.sh
   - make all

@@ -51,19 +51,26 @@
 \setcounter{secnumdepth}{0}
 
 \usepackage{ifthen}
-\usepackage{import}
 \LetLtxMacro\latexincludegraphics\includegraphics
+\makeatletter
 \renewcommand\includegraphics[2][]{%
   \def\detectFileSvgOrNot[##1]##2.##3\nil{%
     \ifthenelse{\equal{##3}{svg}}
-      {\subimport{}{##2.pdf_tex}}
+      {%
+        \input{##2.pdf_tex}}
       {\latexincludegraphics[#1]{#2}}%
   }%
   \IfFileExists{#2}
-  {\detectFileSvgOrNot[#1]#2\nil}
-  {\fbox{Image File doesn't exist}%
-   \message{Image File #2 doesn't exist^^J}}
+    {%
+      \filename@parse{#2}
+      \ifthenelse{\equal{\filename@ext}{svg}}
+        {\input{\filename@base.pdf_tex}}
+        {\latexincludegraphics[#1]{#2}}}
+    {%
+      \fbox{Image File doesn't exist}%
+      \message{Image File #2 doesn't exist^^J}}
 }
+\makeatother
 
 \begin{document}
 

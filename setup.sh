@@ -9,8 +9,8 @@ cp ./scala_text/src/book.json ./
 cp -r ./scala_text/src/img ./
 for f in ./img/*.svg
 do
-  if [[ $f =~ (.*)\.svg ]]; then
-    inkscape -z -D --file=`pwd`/${BASH_REMATCH[1]}.svg --export-pdf=`pwd`/${BASH_REMATCH[1]}.pdf --export-latex
+  if [[ $f =~ \./img/(.*)\.svg ]]; then
+    inkscape -z -D --file=`pwd`/img/${BASH_REMATCH[1]}.svg --export-pdf=`pwd`/${BASH_REMATCH[1]}.pdf --export-latex=`pwd`/${BASH_REMATCH[1]}.pdf_tex
   fi
 done
 mkdir target

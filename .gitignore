@@ -12,6 +12,8 @@
 *.vrb
 *.out
 *.pdf
+*.pdf_tex
+book.json
 target/
 img/
 !scala_text.pdf
