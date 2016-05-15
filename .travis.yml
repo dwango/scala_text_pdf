@@ -9,12 +9,12 @@ cache:
 before_install:
   - brew update
 install:
-  - curl -L -O http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg
+  - curl -L -O http://mirrors.concertpass.com/tex-archive/systems/mac/mactex/BasicTeX.pkg
   - sudo installer -pkg BasicTeX.pkg -target /
   - rm BasicTeX.pkg
   - export PATH=$PATH:/usr/texbin
   - sudo tlmgr update --self --all
-  - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed import needspace
+  - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace
   - sudo tlmgr restore luaotfload
   - brew install pandoc sbt
   - brew cask install inkscape
