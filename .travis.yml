@@ -16,7 +16,6 @@ install:
   - export PATH=$PATH:/usr/texbin
   - sudo tlmgr update --self --all
   - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace
-  - yes | sudo tlmgr restore luaotfload 35328
   - brew install pandoc sbt
   - brew cask install inkscape
 before_script:
@@ -37,7 +36,7 @@ before_script:
   - sudo mktexlsr
   - cd -
   - sudo fmtutil-sys --byfmt lualatex
-  # - export USE_IPAFONT=true
+  - export USE_IPAFONT=true
 script:
   - ./setup.sh
   - make all
