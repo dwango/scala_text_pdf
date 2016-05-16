@@ -32,17 +32,20 @@
   pdfauthor={株式会社ドワンゴ},
   pdftitle={Scala Text}]{hyperref}
 
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{fancyvrb}
 \usepackage{mdframed}
-\newcommand{\VerbBar}{|}
-\newenvironment{Shaded}{\begin{mdframed}\bgroup\footnotesize}{\egroup\end{mdframed}}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\input{lib/color.tex}
+\usepackage{listings}
+\input{listings_setting.tex}
 
 \usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
-\setkeys{Gin}{width=.75\textwidth, keepaspectratio}
+
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>.8\linewidth\linewidth\else\Gin@nat@width\fi}
+\makeatother
+
+\setkeys{Gin}{width=\maxwidth, keepaspectratio}
 
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%

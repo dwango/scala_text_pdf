@@ -1,0 +1,44 @@
+\newfontfamily\listingfont{Menlo}
+
+\lstset{
+  basicstyle=\small\listingfont
+}
+
+\lstdefinestyle{scala}{
+  basicstyle=\listingfont\footnotesize,
+  breakatwhitespace=false,
+  language=scala,
+  breaklines=true,
+  numbers=left,
+  numberstyle=\listingfont\scriptsize,
+  frame=single,
+  captionpos=b,
+  commentstyle=\listingfont\color{gray},
+  extendedchars=true,
+  keepspaces=true,
+  keywordstyle=\listingfont\color{blue},
+  rulecolor=\listingfont\color{black},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  stringstyle=\listingfont\color{gray},
+  tabsize=2,
+  title=\lstname
+}
+
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]"""
+}

@@ -9,6 +9,7 @@ cache:
     - "$HOME/Library/texlive/2015basic/texmf-var/luatex-cache"
 before_install:
   - brew update
+  - sudo pip install --upgrade pip
 install:
   - curl -L -O http://mirrors.concertpass.com/tex-archive/systems/mac/mactex/BasicTeX.pkg
   - sudo installer -pkg BasicTeX.pkg -target /
@@ -18,6 +19,7 @@ install:
   - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace
   - brew install pandoc sbt
   - brew cask install inkscape
+  - sudo pip install pandocfilters
 before_script:
   - sudo mkdir -p /usr/local/texlive/2015basic/texmf-local/fonts/opentype/public/hiragino/
   - cd /usr/local/texlive/2015basic/texmf-local/fonts/opentype/public/hiragino/
