@@ -3,7 +3,7 @@ Scala Text PDF
 
 [![Build Status](https://travis-ci.org/y-yu/scala_text_pdf.svg?branch=master)](https://travis-ci.org/y-yu/scala_text_pdf)
 
-[Scala Text](https://github.com/dwango/scala_text)の非公式PDF版です。
+[Scala Text](https://github.com/dwango/scala_text)のPDF版です。
 
 ## 成果物
 
@@ -17,6 +17,8 @@ Scala Text PDF
 - [Inkscape](https://inkscape.org/ja/)
 - [Pandoc](http://pandoc.org/index.html)
 - [sbt](http://www.scala-sbt.org/)
+- [Python](https://www.python.org/)
+- [pandocfilters](https://github.com/jgm/pandocfilters)
 
 これらをインスールして、次のコマンドでPDFファイルを作成できます。
 
