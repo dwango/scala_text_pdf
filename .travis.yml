@@ -16,7 +16,7 @@ install:
   - rm BasicTeX.pkg
   - export PATH=$PATH:/usr/texbin
   - sudo tlmgr update --self --all
-  - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace
+  - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
   - brew install pandoc sbt
   - brew cask install inkscape
   - sudo pip install pandocfilters
