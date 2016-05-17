@@ -1,17 +1,16 @@
 \newfontfamily\listingfont{Menlo}
 
 \lstset{
-  basicstyle=\small\listingfont
+  basicstyle=\listingfont\footnotesize,
+  frame=single,
+  breaklines=true
 }
 
 \lstdefinestyle{scala}{
-  basicstyle=\listingfont\footnotesize,
   breakatwhitespace=false,
   language=scala,
-  breaklines=true,
   numbers=left,
   numberstyle=\listingfont\scriptsize,
-  frame=single,
   captionpos=b,
   commentstyle=\listingfont\color{gray},
   extendedchars=true,
