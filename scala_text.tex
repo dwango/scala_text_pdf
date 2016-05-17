@@ -2,6 +2,41 @@
 \usepackage{amssymb,amsmath}
 \usepackage{fontspec}
 \usepackage[Lenny]{fncychap}
+\makeatletter
+\renewcommand{\DOCH}{%
+  \settowidth{\px}{\CNV\FmN{\@chapapp}}
+  \addtolength{\px}{2pt}
+  \settoheight{\py}{\CNV\FmN{\@chapapp}}
+  \addtolength{\py}{1pt}
+
+  \settowidth{\mylen}{\CNV\FmN{\@chapapp}\space\CNoV\thechapter}
+  \addtolength{\mylen}{1pt}
+  \settowidth{\pxx}{\CNoV\thechapter}
+  \addtolength{\pxx}{-1pt}
+
+  \settoheight{\pyy}{\CNoV\thechapter}
+  \addtolength{\pyy}{-2pt}
+  \setlength{\myhi}{\pyy}
+  \addtolength{\myhi}{-1\py}
+  \par
+  \parbox[b]{\textwidth}{%
+    \rule[\py]{\RW}{\myhi}%
+    \hskip -\RW%
+    \rule[\pyy]{\px}{\RW}%
+    \hskip -\px%
+    \raggedright%
+    \CNV\FmN{\@chapapp}\space\CNoV\thechapter\CNV\FmN{\@chappos}%
+    \hskip1pt%
+    \mghrulefill{\RW}%
+    \rule{\RW}{\pyy}\par\nobreak%
+    \vskip -\baselineskip%
+    \vskip -\pyy%
+    \hskip \mylen%
+    \mghrulefill{\RW}\par\nobreak%
+    \vskip \pyy}%
+  \vskip 20\p@}
+\makeatother
+
 \usepackage{luacode}
 
 \begin{luacode*}
@@ -80,6 +115,7 @@
   require("lualibs-util-jsn.lua")
 
   local target = "./target/"
+  local bookJsonFile = "book.json"
 
   function read(file)
     local handler = io.open(file, "rb")
@@ -109,7 +145,7 @@
     return string.match(f, "(.*)%.md")
   end
 
-  local bookJson = utilities.json.tolua(read('book.json'))
+  local bookJson = utilities.json.tolua(read(bookJsonFile))
   local readmeFile  = getTeXFile(target, getFileName(bookJson['structure']['readme']))
   local summaryFile = target .. bookJson['structure']['summary']
 
