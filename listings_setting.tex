@@ -1,4 +1,7 @@
 \newfontfamily\listingfont{Menlo}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{
   basicstyle=\listingfont\footnotesize,
@@ -10,17 +13,18 @@
   breakatwhitespace=false,
   language=scala,
   numbers=left,
-  numberstyle=\listingfont\scriptsize,
+  numberstyle=\listingfont\scriptsize\color{gray},
   captionpos=b,
-  commentstyle=\listingfont\color{gray},
+  commentstyle=\listingfont\color{dkgreen},
   extendedchars=true,
   keepspaces=true,
   keywordstyle=\listingfont\color{blue},
+  emphstyle=\listingfont\color{cyan},
   rulecolor=\listingfont\color{black},
   showspaces=false,
   showstringspaces=false,
   showtabs=false,
-  stringstyle=\listingfont\color{gray},
+  stringstyle=\listingfont\color{mauve},
   tabsize=2,
   title=\lstname
 }
@@ -33,6 +37,8 @@
     private,protected,requires,return,sealed,%
     super,this,throw,trait,true,try,%
     type,val,var,while,with,yield},
+  moreemph={Byte,Short,Int,Long,Float,Double,Char,
+    String,Boolean,Unit,Null,Nothing,Any,AnyRef},
   otherkeywords={=>,<-,<\%,<:,>:,\#,@},
   sensitive=true,
   morecomment=[l]{//},
