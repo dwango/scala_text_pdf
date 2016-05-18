@@ -149,11 +149,13 @@
   local summaryFile = target .. bookJson['structure']['summary']
 
   tex.print("\\frontmatter")
+  tex.print("\\setcounter{secnumdepth}{0}")
   tex.print("\\input{" .. readmeFile .. "}")
 
   tex.print("\\tableofcontents")
 
   tex.print("\\mainmatter")
+  tex.print("\\setcounter{secnumdepth}{3}")
   for k, v in pairs(readSummary(summaryFile)) do
     tex.print("\\input{" .. getTeXFile(target, v) .. "}")
   end
