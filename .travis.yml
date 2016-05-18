@@ -12,14 +12,11 @@ before_install:
   - sudo pip install --upgrade pip
 install:
   - curl -L -O http://mirrors.concertpass.com/tex-archive/systems/mac/mactex/BasicTeX.pkg
-  - curl -L -O ftp://ftp.math.utah.edu/pub/texlive/tlpretest/update-tlmgr-latest.sh
   - sudo installer -pkg BasicTeX.pkg -target /
   - rm BasicTeX.pkg
   - export PATH=$PATH:/usr/texbin
-  - chmod +x update-tlmgr-latest.sh
-  - sudo ./update-tlmgr-latest.sh
-  - sudo tlmgr update --repository ftp://ftp.math.utah.edu/pub/texlive/tlpretest/ --self --all
-  - sudo tlmgr install --repository ftp://ftp.math.utah.edu/pub/texlive/tlpretest/ latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
+  - sudo tlmgr update --self --all
+  - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
   - brew install pandoc sbt
   - brew cask install inkscape
   - sudo pip install pandocfilters
