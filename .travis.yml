@@ -6,7 +6,7 @@ cache:
     - "$HOME/.ivy2/cache"
     - "$HOME/.sbt/boot"
     - "$HOME/.sbt/launchers"
-    - "$HOME/Library/texlive/2015basic/texmf-var/luatex-cache"
+    - "$HOME/Library/texlive/2016basic/texmf-var/luatex-cache"
 before_install:
   - brew update
   - sudo pip install --upgrade pip
@@ -21,8 +21,8 @@ install:
   - brew cask install inkscape
   - sudo pip install pandocfilters
 before_script:
-  - sudo mkdir -p /usr/local/texlive/2015basic/texmf-local/fonts/opentype/public/hiragino/
-  - cd /usr/local/texlive/2015basic/texmf-local/fonts/opentype/public/hiragino/
+  - sudo mkdir -p /usr/local/texlive/2016basic/texmf-local/fonts/opentype/public/hiragino/
+  - cd /usr/local/texlive/2016basic/texmf-local/fonts/opentype/public/hiragino/
   - sudo ln -s "/Library/Fonts/ヒラギノ明朝 Pro W3.otf" HiraMinPro-W3.otf
   - sudo ln -s "/Library/Fonts/ヒラギノ明朝 Pro W6.otf" HiraMinPro-W6.otf
   - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ Pro W3.otf" HiraKakuPro-W3.otf
