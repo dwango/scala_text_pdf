@@ -5,7 +5,7 @@ set -e
 cd ./scala_text
 sbt tut
 cd -
-cp ./scala_text/src/book.json ./
+cp ./scala_text/book.json ./
 cp -r ./scala_text/src/img ./
 cp -r ./scala_text/src/example_projects ./
 for f in ./img/*.svg
