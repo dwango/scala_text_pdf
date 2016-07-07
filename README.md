@@ -1,13 +1,13 @@
 Scala Text PDF
 ========================
 
-[![Build Status](https://travis-ci.org/y-yu/scala_text_pdf.svg?branch=master)](https://travis-ci.org/y-yu/scala_text_pdf)
+[![Build Status](https://travis-ci.org/dwango/scala_text_pdf.svg?branch=master)](https://travis-ci.org/dwango/scala_text_pdf)
 
 [Scala Text](https://github.com/dwango/scala_text)のPDF版です。
 
 ## 成果物
 
-- [scala_text.pdf](https://y-yu.github.io/scala_text_pdf/scala_text.pdf)
+- [scala_text.pdf](https://dwango.github.io/scala_text_pdf/scala_text.pdf)
 
 ## コンパイル
 
