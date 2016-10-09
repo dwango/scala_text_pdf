@@ -1,6 +1,7 @@
 language: java
 os:
   - osx
+osx_image: xcode7.1
 cache:
   directories:
     - "$HOME/.ivy2/cache"
@@ -9,6 +10,7 @@ cache:
     - "$HOME/Library/texlive/2016basic/texmf-var/luatex-cache"
 before_install:
   - brew update
+  - brew install python
   - sudo pip install --upgrade pip
 install:
   - curl -L -O http://mirrors.concertpass.com/tex-archive/systems/mac/mactex/BasicTeX.pkg
