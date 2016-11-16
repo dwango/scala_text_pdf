@@ -3,7 +3,7 @@
 set -e
 
 cd ./scala_text
-sbt tut
+../sbt tut
 cd -
 cp ./scala_text/book.json ./
 cp -r ./scala_text/src/img ./

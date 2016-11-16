@@ -9,16 +9,17 @@ cache:
     - "$HOME/Library/texlive/2016basic/texmf-var/luatex-cache"
 before_install:
   - brew update
-  - sudo pip install --upgrade pip
+  - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/install-tex.sh
+  - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/tlmgr.sh
+  - wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt
+  - chmod +x install-tex.sh tlmgr.sh sbt
 install:
-  - curl -L -O http://mirrors.concertpass.com/tex-archive/systems/mac/mactex/BasicTeX.pkg
-  - sudo installer -pkg BasicTeX.pkg -target /
-  - rm BasicTeX.pkg
-  - export PATH=$PATH:/usr/texbin
-  - sudo tlmgr update --self --all
-  - sudo tlmgr install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
-  - brew install pandoc sbt
+  - . ./install-tex.sh
+  - ./tlmgr.sh update --self --all || echo "ignore errors"
+  - ./tlmgr.sh install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
+  - brew install pandoc
   - brew cask install inkscape
+  - sudo pip install --upgrade pip
   - sudo pip install pandocfilters
 before_script:
   - sudo mkdir -p /usr/local/texlive/2016basic/texmf-local/fonts/opentype/public/hiragino/
