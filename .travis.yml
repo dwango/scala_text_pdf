@@ -11,12 +11,13 @@ before_install:
   - brew update
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/install-tex.sh
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/tlmgr.sh
-  - chmod +x install-tex.sh tlmgr.sh
+  - wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt
+  - chmod +x install-tex.sh tlmgr.sh sbt
 install:
   - . ./install-tex.sh
   - ./tlmgr.sh update --self --all || echo "ignore errors"
   - ./tlmgr.sh install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
-  - brew install pandoc sbt
+  - brew install pandoc
   - brew cask install inkscape
   - sudo pip install --upgrade pip
   - sudo pip install pandocfilters
