@@ -4,7 +4,7 @@ set -e
 
 cd ./scala_text
 ../sbt tut
-cd -
+cd ..
 cp ./scala_text/book.json ./
 cp -r ./scala_text/src/img ./
 cp -r ./scala_text/src/example_projects ./
@@ -19,7 +19,7 @@ for f in ./scala_text/gitbook/*.md
 do
   if [[ $f =~ \./scala_text/gitbook/(.*)\.md ]]; then
     cp $f ./target/
-    pandoc -o "./target/${BASH_REMATCH[1]}.tex" -f markdown_github+footnotes+header_attributes-hard_line_breaks-intraword_underscores --latex-engine=lualatex --top-level-division=chapter --listings --filter=filter.py $f
+    pandoc -o "./target/${BASH_REMATCH[1]}.tex" -f markdown_github+footnotes+header_attributes-hard_line_breaks-intraword_underscores --latex-engine=lualatex --chapters --listings --filter ./filter.py $f
   fi
 done
 
