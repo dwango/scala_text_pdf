@@ -1,44 +1,41 @@
 language: java
 os:
-  - osx
+  - linux
+dist: trusty
+sudo: false
 cache:
   directories:
     - "$HOME/.ivy2/cache"
     - "$HOME/.sbt/boot"
     - "$HOME/.sbt/launchers"
-    - "$HOME/Library/texlive/2016basic/texmf-var/luatex-cache"
+    - "$HOME/texlive/2016/texmf-var/luatex-cache"
+    - "$HOME/.ghc"
+    - "$HOME/.cabal"
+    - "$HOME/.stack"
+addons:
+  apt:
+    packages:
+      - haskell-platform
+      - inkscape
 before_install:
-  - brew update
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/install-tex.sh
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/tlmgr.sh
   - wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt
   - chmod +x install-tex.sh tlmgr.sh sbt
+  - wget https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.zip
+  - unzip 1.050R-it.zip
+  - mkdir -p ~/.fonts
+  - cp source-code-pro-2.030R-ro-1.050R-it/OTF/*.otf ~/.fonts/
+  - fc-cache -f -v
+  - cabal update
 install:
   - . ./install-tex.sh
-  - ./tlmgr.sh update --self --all || echo "ignore errors"
   - ./tlmgr.sh install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
-  - brew install pandoc
-  - brew cask install inkscape
-  - sudo pip install --upgrade pip
-  - sudo pip install pandocfilters
+  - cabal install pandoc --force-reinstalls
+  - pip install --user --upgrade pip
+  - pip install --user pandocfilters
 before_script:
-  - sudo mkdir -p /usr/local/texlive/2016basic/texmf-local/fonts/opentype/public/hiragino/
-  - cd /usr/local/texlive/2016basic/texmf-local/fonts/opentype/public/hiragino/
-  - sudo ln -s "/Library/Fonts/ヒラギノ明朝 Pro W3.otf" HiraMinPro-W3.otf
-  - sudo ln -s "/Library/Fonts/ヒラギノ明朝 Pro W6.otf" HiraMinPro-W6.otf
-  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ Pro W3.otf" HiraKakuPro-W3.otf
-  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ Pro W6.otf" HiraKakuPro-W6.otf
-  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ Std W8.otf" HiraKakuStd-W8.otf
-  - sudo ln -s "/Library/Fonts/ヒラギノ丸ゴ Pro W4.otf" HiraMaruPro-W4.otf
-  - sudo ln -s "/System/Library/Fonts/ヒラギノ明朝 ProN W3.otf" HiraMinProN-W3.otf
-  - sudo ln -s "/System/Library/Fonts/ヒラギノ明朝 ProN W6.otf" HiraMinProN-W6.otf
-  - sudo ln -s "/System/Library/Fonts/ヒラギノ角ゴ ProN W3.otf" HiraKakuProN-W3.otf
-  - sudo ln -s "/System/Library/Fonts/ヒラギノ角ゴ ProN W6.otf" HiraKakuProN-W6.otf
-  - sudo ln -s "/Library/Fonts/ヒラギノ角ゴ StdN W8.otf" HiraKakuStdN-W8.otf
-  - sudo ln -s "/Library/Fonts/ヒラギノ丸ゴ ProN W4.otf" HiraMaruProN-W4.otf
-  - sudo mktexlsr
-  - cd -
-  - sudo fmtutil-sys --byfmt lualatex
+  - export PATH=$HOME/.local/bin:$HOME/.cabal/bin:$PATH
   - export USE_IPAFONT=true
 script:
   - ./setup.sh
