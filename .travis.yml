@@ -11,13 +11,19 @@ cache:
     - "$HOME/texlive/2016/texmf-var/luatex-cache"
     - "$HOME/.ghc"
     - "$HOME/.cabal"
+    - "$HOME/.local"
     - "$HOME/.stack"
 addons:
   apt:
     packages:
-      - haskell-platform
+      - cabal-install-1.22
+      - ghc-7.10.3
+      - ttf-bitstream-vera
       - inkscape
+    sources:
+      - hvr-ghc
 before_install:
+  - export PATH=/opt/ghc/7.10.3/bin:/opt/cabal/1.22/bin:$HOME/.local/bin:$HOME/.cabal/bin:$PATH
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/install-tex.sh
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/tlmgr.sh
   - wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt
@@ -30,8 +36,9 @@ before_install:
   - cabal update
 install:
   - . ./install-tex.sh
-  - ./tlmgr.sh install latexmk collection-luatex collection-langjapanese collection-fontsrecommended filehook type1cm mdframed needspace fncychap
-  - cabal install pandoc --force-reinstalls
+  - ./tlmgr.sh install latexmk collection-luatex collection-langjapanese collection-fontsrecommended
+    filehook type1cm mdframed needspace fncychap everyhook svn-prov
+  - cabal install pandoc-1.18
   - pip install --user --upgrade pip
   - pip install --user pandocfilters
 before_script:
