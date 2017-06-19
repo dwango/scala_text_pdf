@@ -52,20 +52,7 @@ after_script:
   - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
   - find $HOME/.ivy2/cache -name "*SNAPSHOT*" | xargs rm -rf
 after_success:
-  - echo -e "Host github.com\n\tStrictHostKeyChecking no\nIdentityFile ~/.ssh/deploy.key\n" >> ~/.ssh/config
-  - openssl aes-256-cbc -k "$SERVER_KEY" -in deploy_key.enc -d -a -out deploy.key
-  - cp deploy.key ~/.ssh/
-  - chmod 600 ~/.ssh/deploy.key
-  - git config --global user.email "m@yyu.pw"
-  - git config --global user.name "Yoshimura Yuu"
-  - git fetch origin gh-pages:gh-pages
-  - git stash -u
-  - git checkout gh-pages
-  - rm scala_text.pdf
-  - git stash pop
-  - git add scala_text.pdf
-  - git commit -a -m "auto commit on travis $TRAVIS_JOB_NUMBER $TRAVIS_COMMIT"
-  - git push git@github.com:dwango/scala_text_pdf.git gh-pages:gh-pages
+  - ./deploy.sh
 env:
   global:
     secure: XNsC3+N8hInq31CgCB+Ln+XGaTJV4icktH29Mj9/c06niFyx1swZyYGot13z5+gDMyPNazSS7v3Y/D9EcUrZCpfNYKlcciFDo83rhB/GfbIle3sp/WOA2atUgG9vbR5K3d6uJwpd7OfYy1GSH77sGBIpTgOYozO7rFQjSvT7SIkt8rjCgZnQ9+zjAY54ZtnYteKtukEfrDUet4hDjeCDhPr8QOO33juRz1S8w3dzgpsR94jvTRTGK9kSyIXozBBiwFeBTfNFtVIJTqm/HCreiTiOiDbDVP3sJsU139Q3JNJ5lPyZ7asY38VxJgT4xda9ehcCzIsa5NwvysyrdEJ89tu6ZUhKLUieVEW2rXzHnlgxVmWvcmeDtJ9TmjpJJiVZRvDI4ByB2fElLkCHH5/HtdzMmTfslWafBXDkQ2In13jhZsMneD6qR5YGusumka+78y/QBbT+uZDSQCZnytEItqYLnUMao/jUo0BKymu1slesfLQ6omOckEVnFAk4DbECZKlKbxnSyrGsKjhjzRvM3/H0jm7R9deSM1xjlcm5/BYBV3Gh+N6oqE1ssyduyMoHJM/w7a2Gt0ayhkPtETryavBM/5CWqP8lNdboGEZXzj+i4TZbeE1Zzx3YwJkRFELgrN59HS4C4Yiof/6xo2Qe0lBMADIuuN9iJcjiETkHNBg=
