@@ -20,7 +20,7 @@ Scala Text PDF
 - [Python](https://www.python.org/)
 - [pandocfilters](https://github.com/jgm/pandocfilters)
 
-これらをインスールして、次のコマンドでPDFファイルを作成できます。
+これらをインストールして、次のコマンドでPDFファイルを作成できます。
 
 ```
 $ ./setup.sh
