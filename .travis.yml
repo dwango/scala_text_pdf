@@ -26,8 +26,7 @@ before_install:
   - export PATH=/opt/ghc/7.10.3/bin:/opt/cabal/1.22/bin:$HOME/.local/bin:$HOME/.cabal/bin:$PATH
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/install-tex.sh
   - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/tlmgr.sh
-  - wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt
-  - chmod +x install-tex.sh tlmgr.sh sbt
+  - chmod +x install-tex.sh tlmgr.sh
   - wget https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.zip
   - unzip 1.050R-it.zip
   - mkdir -p ~/.fonts
@@ -40,7 +39,7 @@ install:
     filehook type1cm mdframed needspace fncychap everyhook svn-prov
   - cabal install pandoc-1.18
   - pip install --user --upgrade pip
-  - pip install --user pandocfilters
+  - pip install --user -r requirements.txt
 before_script:
   - export PATH=$HOME/.local/bin:$HOME/.cabal/bin:$PATH
   - export USE_IPAFONT=true
