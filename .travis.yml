@@ -23,9 +23,9 @@ install:
 script:
   - docker-compose up
 before_cache:
-  - find $HOME/.sbt -name "*.lock" | xargs rm
-  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
-  - find $HOME/.ivy2/cache -name "*SNAPSHOT*" | xargs rm -rf
+  - find $HOME/.sbt -name "*.lock" | sudo xargs rm
+  - find $HOME/.ivy2 -name "ivydata-*.properties" | sudo xargs rm
+  - find $HOME/.ivy2/cache -name "*SNAPSHOT*" | sudo xargs rm -rf
 after_success:
   - ./travis/deploy_image.sh
   - ./travis/deploy_pdf.sh
