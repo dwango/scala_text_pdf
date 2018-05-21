@@ -8,7 +8,7 @@ cache:
     - "$HOME/.ivy2/cache"
     - "$HOME/.sbt/boot"
     - "$HOME/.sbt/launchers"
-    - "$HOME/texlive/2017/texmf-var/luatex-cache"
+    - "$HOME/texlive/texmf-var/luatex-cache"
     - "$HOME/.ghc"
     - "$HOME/.cabal"
     - "$HOME/.local"
