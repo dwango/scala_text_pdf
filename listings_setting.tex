@@ -8,6 +8,11 @@
 \@empty\z@\@empty
 \makeatother
 
+% \lstinlineの後にはなぜか自動でスペースが入らないので、
+% 手でスペースを入れるための処理を追加する
+% （\passthroughコマンドはPandocが自動で追加する）
+\providecommand{\passthrough}[1]{#1\hskip\ltjgetparameter{xkanjiskip}}
+
 \lstset{
   basicstyle=\listingfont\footnotesize,
   frame=single,
