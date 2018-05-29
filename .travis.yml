@@ -1,60 +1,43 @@
-language: java
+language: generic
 os:
   - linux
 dist: trusty
-sudo: false
+sudo: required
 cache:
   directories:
     - "$HOME/.ivy2/cache"
     - "$HOME/.sbt/boot"
     - "$HOME/.sbt/launchers"
-    - "$HOME/texlive/2017/texmf-var/luatex-cache"
-    - "$HOME/.ghc"
-    - "$HOME/.cabal"
-    - "$HOME/.local"
-    - "$HOME/.stack"
-addons:
-  apt:
-    packages:
-      - cabal-install-1.22
-      - ghc-7.10.3
-      - ttf-bitstream-vera
-      - inkscape
-    sources:
-      - hvr-ghc
+services:
+  - docker
 before_install:
-  - export PATH=/opt/ghc/7.10.3/bin:/opt/cabal/1.22/bin:$HOME/.local/bin:$HOME/.cabal/bin:$PATH
-  - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/install-tex.sh
-  - wget https://raw.githubusercontent.com/y-yu/install-tex-travis/master/tlmgr.sh
-  - chmod +x install-tex.sh tlmgr.sh
-  - wget https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.zip
-  - unzip 1.050R-it.zip
-  - mkdir -p ~/.fonts
-  - cp source-code-pro-2.030R-ro-1.050R-it/OTF/*.otf ~/.fonts/
-  - fc-cache -f -v
-  - cabal update
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
 install:
-  - . ./install-tex.sh
-  - ./tlmgr.sh install latexmk collection-luatex collection-langjapanese collection-fontsrecommended
-    filehook type1cm mdframed needspace fncychap everyhook svn-prov
-  - cabal install pandoc-1.18
-  - pip install --user --upgrade pip
-  - pip install --user -r requirements.txt
-before_script:
-  - export PATH=$HOME/.local/bin:$HOME/.cabal/bin:$PATH
-  - export USE_IPAFONT=true
+  - docker-compose pull
+  - docker-compose build
 script:
-  - ./setup.sh
-  - make all
-after_script:
-  - find $HOME/.sbt -name "*.lock" | xargs rm
-  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
-  - find $HOME/.ivy2/cache -name "*SNAPSHOT*" | xargs rm -rf
+  - docker-compose up
+before_cache:
+  - find $HOME/.sbt -name "*.lock" | sudo xargs rm
+  - find $HOME/.ivy2 -name "ivydata-*.properties" | sudo xargs rm
+  - find $HOME/.ivy2/cache -name "*SNAPSHOT*" | sudo xargs rm -rf
 after_success:
-  - ./deploy.sh
+  - ./travis/deploy_image.sh
+  - ./travis/deploy_pdf.sh
+after_failure:
+  - cat scala_text.log
 env:
   global:
-    secure: XNsC3+N8hInq31CgCB+Ln+XGaTJV4icktH29Mj9/c06niFyx1swZyYGot13z5+gDMyPNazSS7v3Y/D9EcUrZCpfNYKlcciFDo83rhB/GfbIle3sp/WOA2atUgG9vbR5K3d6uJwpd7OfYy1GSH77sGBIpTgOYozO7rFQjSvT7SIkt8rjCgZnQ9+zjAY54ZtnYteKtukEfrDUet4hDjeCDhPr8QOO33juRz1S8w3dzgpsR94jvTRTGK9kSyIXozBBiwFeBTfNFtVIJTqm/HCreiTiOiDbDVP3sJsU139Q3JNJ5lPyZ7asY38VxJgT4xda9ehcCzIsa5NwvysyrdEJ89tu6ZUhKLUieVEW2rXzHnlgxVmWvcmeDtJ9TmjpJJiVZRvDI4ByB2fElLkCHH5/HtdzMmTfslWafBXDkQ2In13jhZsMneD6qR5YGusumka+78y/QBbT+uZDSQCZnytEItqYLnUMao/jUo0BKymu1slesfLQ6omOckEVnFAk4DbECZKlKbxnSyrGsKjhjzRvM3/H0jm7R9deSM1xjlcm5/BYBV3Gh+N6oqE1ssyduyMoHJM/w7a2Gt0ayhkPtETryavBM/5CWqP8lNdboGEZXzj+i4TZbeE1Zzx3YwJkRFELgrN59HS4C4Yiof/6xo2Qe0lBMADIuuN9iJcjiETkHNBg=
+    - IMAGE_NAME=yyupw/scala-text-pdf
+    - REGISTRY_USER=yyupw
+    - DOCKER_COMPOSE_VERSION=1.21.2
+    - secure: XNsC3+N8hInq31CgCB+Ln+XGaTJV4icktH29Mj9/c06niFyx1swZyYGot13z5+gDMyPNazSS7v3Y/D9EcUrZCpfNYKlcciFDo83rhB/GfbIle3sp/WOA2atUgG9vbR5K3d6uJwpd7OfYy1GSH77sGBIpTgOYozO7rFQjSvT7SIkt8rjCgZnQ9+zjAY54ZtnYteKtukEfrDUet4hDjeCDhPr8QOO33juRz1S8w3dzgpsR94jvTRTGK9kSyIXozBBiwFeBTfNFtVIJTqm/HCreiTiOiDbDVP3sJsU139Q3JNJ5lPyZ7asY38VxJgT4xda9ehcCzIsa5NwvysyrdEJ89tu6ZUhKLUieVEW2rXzHnlgxVmWvcmeDtJ9TmjpJJiVZRvDI4ByB2fElLkCHH5/HtdzMmTfslWafBXDkQ2In13jhZsMneD6qR5YGusumka+78y/QBbT+uZDSQCZnytEItqYLnUMao/jUo0BKymu1slesfLQ6omOckEVnFAk4DbECZKlKbxnSyrGsKjhjzRvM3/H0jm7R9deSM1xjlcm5/BYBV3Gh+N6oqE1ssyduyMoHJM/w7a2Gt0ayhkPtETryavBM/5CWqP8lNdboGEZXzj+i4TZbeE1Zzx3YwJkRFELgrN59HS4C4Yiof/6xo2Qe0lBMADIuuN9iJcjiETkHNBg=
+    - secure: LqtLUXyKsJTYqyI1bMkfRtlHpblir2PXApAKbo45hh2PEXBzOTMYcjf7DKFQxxQE6aVTWBxAfPCRPR7R6HwJFp2NKD1Rsjnv2Zz+bg0x+KpWB1so8zQi934/x4L3o+7NVFBLKVjk8/ux2oGnNVmc4npUi6p7Jzm+OY3BTBlqmYCyEPG+1Eo+lWgwCloHMGO6kxm+/srtKguk0dKKBlm0Zn9Htim5Bfxzo/he8eXOaMAIpnIHsdbcEq/Z31OFDyl5Lcyk30ucXP8pEXxzW2maRqwoy1r2MFy7V1inMlRZDLpdFWAD2lmq5zZf89u0KkEVfMgq2gR0N23yaQ2JMME/aujDAsI73Z1aiOgjwn3HCl5k0++g03TBiQXT87h7GaIZVg/lm//W3D5+icP5fbBhPN5UOsQLj9nLU38SIjf4LqiqVgAfcsaI7iWTJuB8h5CCxCTDxc0dhVddrIjoG8ZR7txIdV1KmCupwIY4+WCMebvGAjriq2XyvGKN+tbKrrscquqlyTUHd0+X0tU7VxZrdQhv1GlLxDJX8c9jfLfl8GjzK4mF7pYhSCiQcKBYDjNlfPPQWv5Vj674082RqUk6dJzt1M9jgUvpTXOI1MxG2bl5t6nWN5qXdiHAQLIfWbA6SoEaGZamTmPHUZXKWDGp9jk92U3oqwZ5tYXKqCjyzU8=
 notifications:
   slack:
     secure: GbB+VrJcMx9og/scZ/U+sCWtLEtcNVL+EQ6hPcr90ysgcl72hVMV/XPtIu8aNj8xOX3tQVsJtiZjNrcoUMR8YqLMtNB4++Vaaw7Y21jHxtg/7E1+po9y14gdJjXF3FDHcVKpww6Tkh1NnQ3bg+7K90TAGbMWt7Y00fYXlgQv34ZPOKHgmOplrGz6gFmKiaqTXg9eVKLlSZ9WtckqIV1sXZaYEt0UaYIXttl1HOl6ZvrJWJzaahyZBZC2bIuNxs0L77c6C/N/wpTOBk9wD/dt13nvJ67SP+F/YIjsCfyfG3QNdwo5jBYiWndpMs58bT8833EIcmMBL6Xk21dMSYJLbSrfn4zK8knFQGIzGulghX+BKGrEeLrUlsWMi1qNEiRz0EUqKfwPUzX79JKATLY7MSP75shOemADAz8fq+FV0WSGJyH18t6d0rGuLB8g0hMUU2Z98A6V4/2nzEs1GInNuU0XnsQn7JB22ChNdGdnzDdPTYmkPchVBWprwmdM85js5r5O9i/9wZQ8HWWVrum+Ww8bg7Hd4MtEqceyhLmTQPBjSc3ABdba4XaBJB8F0f+6+e0vkmTYhYjln0UFjE9vETaZNpQNE544yJGFigSr5VPT8w2DFtJ7ibyLj4NhaiBeO3JAkh+waE8YUCdE/LAQtm3cZX3GjY2lbxA2saUNCdQ=

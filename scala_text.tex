@@ -1,4 +1,4 @@
-\documentclass[10pt, a4, oneside]{ltjsbook}
+\documentclass[10pt, a4paper, oneside]{ltjsbook}
 \usepackage{amssymb,amsmath}
 \usepackage{fontspec}
 \usepackage[Lenny]{fncychap}
@@ -105,6 +105,9 @@
       \message{Image File #2 doesn't exist^^J}}
 }
 \makeatother
+
+% Pandocの画像を適切に表示させるため
+\setkeys{Gin}{keepaspectratio}
 
 \begin{document}
 

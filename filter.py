@@ -33,7 +33,7 @@ def filter(key, value, fmt, meta):
         [_, _, [src, _]] = value
         if src.startswith("http"):
             fileName = src.split("/")[-1]
-            os.system("cd img && curl -O " + src)
+            os.system("cd img && wget " + src)
             return mkIncludegraphics(fileName)
     elif key == 'Str':
         return(Str(value.replace(u"〜", u"～")))

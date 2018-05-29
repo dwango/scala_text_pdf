@@ -1,0 +1,13 @@
+version: '3.2'
+services:
+  scala-text-pdf-compile:
+    image: yyupw/scala-text-pdf:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      cache_from:
+        - yyupw/scala-text-pdf:latest
+    volumes:
+      - .:/workdir
+      - ~/.sbt:/root/.sbt
+      - ~/.ivy2:/root/.ivy2
