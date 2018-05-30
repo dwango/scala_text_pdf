@@ -10,11 +10,11 @@ if [[ "${TRAVIS_OS_NAME}" == "linux" && "${TRAVIS_BRANCH}" == "master" && "${TRA
   git config --global user.email "mizukota@gmail.com"
   git config --global user.name "Kota Mizushima"
   git fetch origin gh-pages:gh-pages
-  git stash -u
-  git checkout gh-pages
-  rm scala_text.pdf
-  git stash pop
-  git add scala_text.pdf
-  git commit -a -m "auto commit on travis $TRAVIS_JOB_NUMBER $TRAVIS_COMMIT"
+  sudo git stash -u
+  sudo git checkout gh-pages
+  sudo rm scala_text.pdf
+  sudo git stash pop
+  sudo git add scala_text.pdf
+  sudo git commit -a -m "auto commit on travis $TRAVIS_JOB_NUMBER $TRAVIS_COMMIT"
   git push git@github.com:dwango/scala_text_pdf.git gh-pages:gh-pages
 fi
