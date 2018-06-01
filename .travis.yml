@@ -21,7 +21,7 @@ install:
   - docker-compose pull
   - docker-compose build
 script:
-  - docker-compose up
+  - docker-compose up --exit-code-from scala-text-pdf-compile
 before_cache:
   - find $HOME/.sbt -name "*.lock" | sudo xargs rm
   - find $HOME/.ivy2 -name "ivydata-*.properties" | sudo xargs rm
